@@ -47,15 +47,39 @@ function main(params) {
       // in case of errors during the call resolve with an error message according to the pattern 
       // found in the catch clause below
 
-      resolve({
-        statusCode: 200,
-        body: {
-          text: params.text, 
-          language: "<Best Language>",
-          confidence: 0.5,
-        },
-        headers: { 'Content-Type': 'application/json' }
+
+      const languageTranslator = new LanguageTranslatorV3({
+        version: '2018-05-01',
+        authenticator: new IamAuthenticator({
+          apikey: 'ZB2lK70gYQN3y7cmTZPin7mrMKzSUFglCQ3b0D9qwmtE',
+        }),
+        serviceUrl: 'https://api.eu-de.language-translator.watson.cloud.ibm.com/instances/8d7be732-048d-415c-8ae5-6fce75e3a959',
       });
+
+      let Test = "";
+      const identifyParams = {
+        text: params.text
+      };
+
+      languageTranslator.identify(identifyParams)
+          .then(identifiedLanguages => {
+            console.log(JSON.stringify(identifiedLanguages, ['language','confidence'], 2));
+
+            resolve({
+              statusCode: 200,
+              body: {
+                text: params.text,
+                language: "<Best Language>",
+                confidence: 0.5,
+              },
+              headers: { 'Content-Type': 'application/json' }
+            });
+
+          })
+          .catch(err => {
+            console.log('error:', err);
+          });
+
 
 
     } catch (err) {

@@ -49,6 +49,23 @@ function main(params) {
       // found in the catch clause below
 
       // pick the language with the highest confidence, and send it back
+
+      const translateParams = {
+        text: 'Hello, how are you today?',
+        modelId: 'en-es',
+      };
+
+      languageTranslator.translate(translateParams)
+          .then(translationResult => {
+            console.log(JSON.stringify(translationResult, null, 2));
+          })
+          .catch(err => {
+            console.log('error:', err);
+          });
+
+
+
+
       resolve({
         statusCode: 200,
         body: {
