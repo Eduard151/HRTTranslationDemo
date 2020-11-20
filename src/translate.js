@@ -50,6 +50,15 @@ function main(params) {
 
       // pick the language with the highest confidence, and send it back
 
+      const languageTranslator = new LanguageTranslatorV3({
+        version: '2018-05-01',
+        authenticator: new IamAuthenticator({
+          apikey: 'ZB2lK70gYQN3y7cmTZPin7mrMKzSUFglCQ3b0D9qwmtE',
+        }),
+        serviceUrl: 'https://api.eu-de.language-translator.watson.cloud.ibm.com/instances/8d7be732-048d-415c-8ae5-6fce75e3a959',
+      });
+
+
       const translateParams = {
         text: 'Hello, how are you today?',
         modelId: 'en-es',
@@ -57,8 +66,15 @@ function main(params) {
 
       languageTranslator.translate(translateParams)
           .then(translationResult => {
-            console.log(JSON.stringify(translationResult.translations,null,2));
+            //console.log(JSON.stringify(translationResult.result,null,2));
 
+            const translate_text = translationResult.result.translations[0].translation;
+            const translate_word = translationResult.result.word_count;
+            const translate_character = translationResult.result.character_count;
+
+            console.log("Translation: "+translate_text);
+            console.log("Words: "+translate_word);
+            console.log("Character: "+translate_character);
 
             resolve({
               statusCode: 200,

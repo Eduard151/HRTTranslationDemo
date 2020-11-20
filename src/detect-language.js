@@ -63,9 +63,10 @@ function main(params) {
 
       languageTranslator.identify(identifyParams)
           .then(identifiedLanguages => {
+            //console.log(JSON.stringify(identifiedLanguages.result.languages,null,2));
+
             const ident_confidence = identifiedLanguages.result.languages[0].confidence;
             const ident_lenguage = identifiedLanguages.result.languages[0].language;
-            //console.log(JSON.stringify(identifiedLanguages.result.languages,null,2));
 
             console.log("Language: " +ident_lenguage);
             console.log("Confidence: "+ident_confidence);
