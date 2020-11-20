@@ -57,24 +57,24 @@ function main(params) {
 
       languageTranslator.translate(translateParams)
           .then(translationResult => {
-            console.log(JSON.stringify(translationResult, null, 2));
+            console.log(JSON.stringify(translationResult.translations,null,2));
+
+
+            resolve({
+              statusCode: 200,
+              body: {
+                translations: "<translated text>",
+                words: 1,
+                characters: 11,
+              },
+              headers: { 'Content-Type': 'application/json' }
+            });
+
           })
           .catch(err => {
             console.log('error:', err);
           });
 
-
-
-
-      resolve({
-        statusCode: 200,
-        body: {
-          translations: "<translated text>",
-          words: 1,
-          characters: 11,
-        },
-        headers: { 'Content-Type': 'application/json' }
-      });
          
     } catch (err) {
       console.error('Error while initializing the AI service', err);

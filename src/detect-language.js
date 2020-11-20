@@ -56,21 +56,26 @@ function main(params) {
         serviceUrl: 'https://api.eu-de.language-translator.watson.cloud.ibm.com/instances/8d7be732-048d-415c-8ae5-6fce75e3a959',
       });
 
-      let Test = "";
+
       const identifyParams = {
         text: params.text
       };
 
       languageTranslator.identify(identifyParams)
           .then(identifiedLanguages => {
-            console.log(JSON.stringify(identifiedLanguages, ['language','confidence'], 2));
+            const ident_confidence = identifiedLanguages.result.languages[0].confidence;
+            const ident_lenguage = identifiedLanguages.result.languages[0].language;
+            //console.log(JSON.stringify(identifiedLanguages.result.languages,null,2));
+
+            console.log("Language: " +ident_lenguage);
+            console.log("Confidence: "+ident_confidence);
 
             resolve({
               statusCode: 200,
               body: {
-                text: params.text,
-                language: "<Best Language>",
-                confidence: 0.5,
+                text: identifyParams.text,
+                language: ident_lenguage,
+                confidence: ident_confidence,
               },
               headers: { 'Content-Type': 'application/json' }
             });
@@ -79,7 +84,6 @@ function main(params) {
           .catch(err => {
             console.log('error:', err);
           });
-
 
 
     } catch (err) {
