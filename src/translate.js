@@ -60,8 +60,8 @@ function main(params) {
 
 
       const translateParams = {
-        text: 'Hello, how are you today?',
-        modelId: 'en-es',
+        text: params.text,
+        modelId: "de-en", //params.modelId
       };
 
       languageTranslator.translate(translateParams)
@@ -75,13 +75,14 @@ function main(params) {
             console.log("Translation: "+translate_text);
             console.log("Words: "+translate_word);
             console.log("Character: "+translate_character);
+            //console.log(JSON.stringify(resolve.arguments.text()));
 
             resolve({
               statusCode: 200,
               body: {
-                translations: "<translated text>",
-                words: 1,
-                characters: 11,
+                translations: translate_text,
+                words: translate_word,
+                characters: translate_character,
               },
               headers: { 'Content-Type': 'application/json' }
             });
